@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+
+  # ── Banco PostgreSQL ────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: ms1-postgres
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Aplicação MS1 ───────────────────────────────────────────────────────────
+  ms1-usuarios:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ms1-usuarios
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DB_HOST: postgres          # sobrescreve o host para o nome do serviço Docker
+    ports:
+      - "8081:8081"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+

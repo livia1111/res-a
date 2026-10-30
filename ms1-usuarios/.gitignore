@@ -1,0 +1,35 @@
+# ── Segredos / Credenciais ───────────────────────────────────────────────────
+.env
+*.key
+*.pem
+
+# ── Compilação Maven ─────────────────────────────────────────────────────────
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ── IDEs ─────────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.code-workspace
+.classpath
+.project
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── SO ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
